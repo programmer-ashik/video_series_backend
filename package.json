@@ -1,0 +1,19 @@
+{
+  "name": "my_tube_backend",
+  "version": "1.0.0",
+  "description": "a backend about youtube",
+  "keywords": [
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "jsavascript"
+  },
+  "license": "ISC",
+  "author": "ashik",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
