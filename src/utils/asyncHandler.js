@@ -8,6 +8,9 @@ export { asyncHandler };
 
 /*
 // 2nd approch
+normal function
+const asyncHandler=(fun)=>(req, res, next)=>{
+  }
 const asyncHandler = (fun) => async (req, res, next) => {
   try {
     await fun(req, res, next);

@@ -1,14 +1,9 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import jwt from "jwt";
+
 const userSchema = new Schema(
   {
-    watchHistory: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Video",
-      },
-    ],
     username: {
       type: String,
       required: true,
@@ -21,7 +16,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
+      lowecase: true,
       trim: true,
     },
     fullName: {
@@ -31,12 +26,18 @@ const userSchema = new Schema(
       index: true,
     },
     avatar: {
-      type: String, //cloudinary
+      type: String, // cloudinary url
       required: true,
     },
     coverImage: {
-      type: String,
+      type: String, // cloudinary url
     },
+    watchHistory: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Video",
+      },
+    ],
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -45,18 +46,20 @@ const userSchema = new Schema(
       type: String,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next;
+
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
-// verify password
+
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-// accesstoken
+
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
@@ -82,4 +85,5 @@ userSchema.methods.generateRefreshToken = function () {
     }
   );
 };
-export const User = model("User", userSchema);
+
+export const User = mongoose.model("User", userSchema);
