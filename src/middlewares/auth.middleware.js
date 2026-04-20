@@ -1,17 +1,10 @@
-import { ApiError } from "../utils/ApiError";
-import { asyncHandler } from "../utils/asyncHandler";
+import { User } from "../models/user.models.js";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
-import User from "../models/user.models";
+
 export const verifyJWT = asyncHandler(async (req, _, next) => {
-  // todo
-  //  use try catch function
-  //  take accesstoken for req.cookies
-  // check token have on req.cokkies/ becouse in mobileApp have no cookies section
-  // decode token by jwt.verify with token and ACCESS_TOKEN_SECRITE
-  // now find user by decodeToken._id accept("-password -refreshToken")
-  // check user have in database
-  // send use in req.user=user
-  //   next()
+  console.log(req.cookies);
   try {
     const token =
       req.cookies?.accessToken ||
