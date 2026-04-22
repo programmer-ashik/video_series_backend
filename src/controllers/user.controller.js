@@ -136,7 +136,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: { refreshToken: undefined },
+      $unset: { refreshToken: 1 },
     },
     {
       new: true,
@@ -156,7 +156,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   // find refreshtoken from cookies
   // verifi refreshtoken by jwt
   const incommingRefreshToken =
-    req.cookie.refreshAccessToken || req.header.refreshAccessToken;
+    req.cookies.refreshToken || req.header.refreshToken;
   if (!incommingRefreshToken) {
     throw new ApiError(400, "Unauthorize requiest");
   }
@@ -165,7 +165,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       incommingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
-    console.log(decodedToken, "for check user.controller 168 line");
     const user = await User.findById(decodedToken._id);
     if (!user) {
       throw new ApiError(401, "Imvalid requiest");
@@ -196,7 +195,9 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   try {
-    const { oldPassword, newPassword } = req.user;
+    console.log(req.body);
+    const { oldPassword, newPassword } = req?.body;
+    console.log("oldPassword:", oldPassword, "newPassword:", newPassword);
     const user = await User.findById(req.user?._id);
     if (!user) {
       throw new ApiError(401, "You are not valid user");
@@ -213,7 +214,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, {}, "Your Password is Changes Successful"));
   } catch (error) {
-    throw new ApiError(400, "You are not valid user");
+    throw new ApiError(400, "You are not valid user2");
   }
 });
 const getCurrentUser = asyncHandler(async (req, res) => {
@@ -248,7 +249,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) {
     throw new ApiError(
       400,
-      "AvaterLocalpath not Found check avatar upload in local file successfully"
+      "Avater Local path not Found check avatar upload in local file successfully"
     );
   }
   const avatar = await uploadOnCloudinary(avatarLocalPath);
@@ -358,7 +359,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 const getWatchHistory = asyncHandler(async (req, res) => {
   const user = await User.aggregate([
     {
-      $match: { _id: new mongoose.Types.Objectid(req.user._id) },
+      $match: { _id: new mongoose.Types.Objectid(req.user?._id) },
     },
     {
       $lookup: {
