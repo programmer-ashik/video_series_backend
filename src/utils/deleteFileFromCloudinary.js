@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import { ApiError } from "./ApiError";
+import { ApiError } from "./ApiError.js";
 const deleteFileFromCloudinary = async (publicId, resourceType = "image") => {
   try {
     if (!publicId) return null;

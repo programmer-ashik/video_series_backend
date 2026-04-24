@@ -53,7 +53,7 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, { isLiked: true }, "Like added successfully"));
 });
-const getLikedVideo = asyncHandler(async (req, res) => {
+const getLikedVideos = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
   const likedVideo = await Like.aggregate([
     {
@@ -98,4 +98,4 @@ const getLikedVideo = asyncHandler(async (req, res) => {
     );
 });
 
-export { toggleVideoLike, toggleCommentLike, getLikedVideo };
+export { toggleVideoLike, toggleCommentLike, getLikedVideos };

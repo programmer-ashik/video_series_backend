@@ -68,14 +68,14 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
       )
     );
 });
-const getSubscribedChannel = asyncHandler(async (req, res) => {
-  const { subdcriberId } = req.params;
-  if (!isValidObjectId(subdcriberId)) {
+const getSubscribedChannels = asyncHandler(async (req, res) => {
+  const { subscriberId } = req.params;
+  if (!isValidObjectId(subscriberId)) {
     throw new ApiError(400, "Invalid Subscriber Id");
   }
   const subscribedChannel = await Subscription.aggregate([
     {
-      $match: { subscriber: new mongoose.Types.ObjectId(subdcriberId) },
+      $match: { subscriber: new mongoose.Types.ObjectId(subscriberId) },
     },
     {
       $lookup: {
@@ -117,4 +117,4 @@ const getSubscribedChannel = asyncHandler(async (req, res) => {
       )
     );
 });
-export { toggledSubscription, getUserChannelSubscribers, getSubscribedChannel };
+export { toggledSubscription, getUserChannelSubscribers, getSubscribedChannels };

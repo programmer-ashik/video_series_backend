@@ -82,7 +82,7 @@ const addComments = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(201, comment, "comment added successfully"));
 });
-const updateComment = asyncHandler(async (req, res) => {
+const updateComments = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
   const { new_comment } = req.body;
   if (!commentId) {
