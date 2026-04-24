@@ -16,8 +16,10 @@ app.use(cookieParser());
 
 // imports routes
 import userRoutes from "./routes/user.routes.js";
+import healthCheckRouter from "./routes/healthCheck.route.js";
 
-// rouutes declerations
+// rouutes declerations Routing Decoupling structure
 app.use("/api/v1/users", userRoutes);
-// hppt://localhost:8000/api/v1/users/register
+app.use("/api/v1/health", healthCheckRouter);
+
 export { app };

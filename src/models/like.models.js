@@ -21,4 +21,4 @@ const likeSchema = new Schema(
   },
   { timestamps: true }
 );
-const Like = model("Like", likeSchema);
+export const Like = model("Like", likeSchema);

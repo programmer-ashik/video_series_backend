@@ -2,8 +2,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Video } from "../models/video.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
-import { ApiError } from "../utils/ApiError";
-import { uploadOnCloudinary } from "../utils/cloudinary";
+import { ApiError } from "../utils/ApiError.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import {
   deleteFileFromCloudinary,
   getPublicIdFromUrl,
